@@ -1,33 +1,60 @@
 # ros2_iio_medical
 
-ROS2 bridge between Linux IIO biosignal devices and ROS2 topics.
+ROS 2 bridge between Linux IIO biosignal kernel drivers and ROS 2 topics,
+targeting medical robotics and surgical monitoring applications.
 
-Reads from Linux IIO kernel drivers (ADS1299, MAX86150, ti-ads1298, MAX30102)
-and publishes biosignal data as ROS2 topics for use in medical robotics and
-surgical monitoring applications.
+Covers the full acquisition stack:
+
+```
+Analog sensor
+     │
+     ▼
+Linux IIO kernel driver   (ADS1299, MAX86150, MAX30102, ti-ads1298)
+     │  Hardware DRDY interrupt → IIO trigger → kernel DMA
+     ▼
+/dev/iio:deviceN          (kernel ring buffer)
+     │  epoll_wait() → read() → parse binary sample
+     ▼
+ros2_iio_medical          (this package)
+     │  Float64MultiArray, scaled to physical units (mV, lux, BPM)
+     ▼
+ROS 2 topic               /biosignal/eeg  /biosignal/ecg_ppg  /biosignal/spo2
+     │
+     ▼
+Downstream nodes          robot control, logging, ML inference, visualisation
+```
 
 ## Supported Devices
 
-| Chip | Type | Topic |
-|---|---|---|
-| TI ADS1299 | 24-bit 8-channel EEG/ECG ADC | `/biosignal/eeg` |
-| ADI MAX86150 | ECG + PPG analog front-end | `/biosignal/ecg_ppg` |
-| TI ti-ads1298 | ECG ADC | `/biosignal/ecg` |
-| ADI MAX30102 | SpO₂ / heart-rate | `/biosignal/spo2` |
+| Chip | Signal | Channels | Topic |
+|---|---|---|---|
+| TI ADS1299 | EEG / ECG | 8 × 24-bit | `/biosignal/eeg` |
+| ADI MAX86150 | ECG + PPG | 2 | `/biosignal/ecg_ppg` |
+| TI ti-ads1298 | ECG | 8 × 24-bit | `/biosignal/ecg` |
+| ADI MAX30102 | SpO₂ / heart-rate | 2 | `/biosignal/spo2` |
 
-## Two Acquisition Modes
+Any Linux IIO device with standard sysfs or triggered-buffer interface is supported.
 
-### 1. Polling Bridge (`iio_bridge`)
-Reads from sysfs at a fixed timer rate. Simple, good for prototyping.
+## Acquisition Modes
 
-### 2. Triggered Buffer Bridge (`iio_triggered_bridge`)
-Uses Linux IIO kernel buffer + `epoll`. Hardware trigger (DRDY interrupt)
-drives acquisition — no timer jitter, no missed samples. Correct approach
-for continuous biosignal acquisition.
+### Polling bridge — `iio_bridge`
 
+Reads `in_voltageX_raw` from sysfs on a ROS 2 wall timer.
+Simple, no kernel buffer setup required. Good for prototyping and low-rate sensors.
+
+```bash
+ros2 launch ros2_iio_medical iio_bridge.launch.py
 ```
-Hardware DRDY interrupt → IIO trigger → kernel DMA → /dev/iio:deviceN
-epoll_wait() wakes thread → read() → parse binary → ROS2 topic
+
+### Triggered buffer bridge — `iio_triggered_bridge`
+
+Uses the Linux IIO kernel buffer with `epoll(7)`.
+The hardware DRDY interrupt drives the ADC; the kernel fills a DMA ring buffer;
+`epoll_wait()` wakes the acquisition thread exactly once per sample batch.
+No timer jitter. No missed samples. Correct approach for continuous EEG/ECG.
+
+```bash
+ros2 launch ros2_iio_medical iio_triggered_bridge.launch.py
 ```
 
 ## Build
@@ -39,37 +66,61 @@ colcon build --packages-select ros2_iio_medical
 source install/setup.bash
 ```
 
-## Run
+## Test without hardware
+
+A simulator script creates a fake ADS1299 IIO sysfs tree at `/tmp/iio_sim`
+so the bridge can be exercised without physical hardware:
 
 ```bash
-# Triggered buffer (production)
-ros2 launch ros2_iio_medical iio_triggered_bridge.launch.py
+# Terminal 1 — start simulator (250 Hz synthetic EEG/ECG)
+bash src/ros2_iio_medical/test/simulate_ads1299.sh &
 
-# Polling (prototyping)
-ros2 launch ros2_iio_medical iio_bridge.launch.py
+# Terminal 2 — run bridge against fake sysfs
+ros2 run ros2_iio_medical iio_bridge \
+  --ros-args \
+  -p device_path:=/tmp/iio_sim/iio:device0 \
+  -p num_channels:=8 \
+  -p sample_rate_hz:=10.0 \
+  -p topic_name:=/biosignal/eeg
 
-# Monitor output
+# Terminal 3 — verify output
 ros2 topic echo /biosignal/eeg
 ```
 
 ## Parameters
 
+### iio_bridge
+
 | Parameter | Default | Description |
 |---|---|---|
-| `sysfs_path` | `/sys/bus/iio/devices/iio:device0` | IIO device sysfs path |
+| `device_path` | `/sys/bus/iio/devices/iio:device0` | IIO sysfs path |
+| `num_channels` | `8` | Number of channels |
+| `sample_rate_hz` | `250.0` | Polling rate |
+| `topic_name` | `/biosignal/ecg` | Output topic |
+
+### iio_triggered_bridge
+
+| Parameter | Default | Description |
+|---|---|---|
+| `sysfs_path` | `/sys/bus/iio/devices/iio:device0` | IIO sysfs path |
 | `dev_path` | `/dev/iio:device0` | IIO character device |
-| `num_channels` | `8` | Number of channels to acquire |
+| `num_channels` | `8` | Number of channels |
 | `buffer_length` | `64` | Kernel buffer depth in samples |
-| `topic_name` | `/biosignal/eeg` | ROS2 output topic |
+| `topic_name` | `/biosignal/eeg` | Output topic |
 
-## Related Kernel Drivers
+## Related kernel driver work
 
-The Linux IIO drivers this bridge reads from:
+This package is the userspace counterpart to upstream Linux IIO driver
+contributions for the same devices:
 
-- [ADS1299 driver](https://lore.kernel.org/linux-iio/) — under review
-- [MAX86150 driver](https://lore.kernel.org/linux-iio/) — under review  
-- [ti-ads1298 fixes](https://lore.kernel.org/linux-iio/) — merged to mainline
+- **ADS1299** — 24-bit 8-channel EEG/ECG ADC, new driver under upstream review
+- **MAX86150** — ECG + PPG analog front-end, new driver under upstream review
+- **ti-ads1298** — ECG ADC, fixes merged to mainline Linux
+
+The IIO subsystem presents each device through a uniform sysfs and character
+device interface; this bridge reads that interface without any device-specific
+code, so it works with any compliant IIO driver.
 
 ## License
 
-Apache-2.0
+Apache-2.0 — see [LICENSE](LICENSE).
