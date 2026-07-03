@@ -3,7 +3,7 @@
 ROS 2 bridge between Linux IIO biosignal kernel drivers and ROS 2 topics,
 targeting medical robotics and surgical monitoring applications.
 
-![Architecture](docs/architecture.svg)
+![Architecture](docs/architecture-stm32mp157.svg)
 
 Covers the full acquisition stack — from analog sensor through Linux kernel
 driver, IIO subsystem, and DMA ring buffer, up to typed ROS 2 topics ready
