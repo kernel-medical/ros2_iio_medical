@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 700" font-family="'Segoe UI', system-ui, sans-serif">
+
+  <!-- White background -->
+  <rect width="860" height="700" fill="#ffffff" rx="14" stroke="#d0d7de" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="430" y="34" fill="#24292f" font-size="15" font-weight="bold" text-anchor="middle" letter-spacing="0.5">Linux IIO → ROS 2 Medical Acquisition Stack</text>
+  <text x="430" y="52" fill="#57606a" font-size="11" text-anchor="middle">from silicon to surgical robot — complete open source pipeline</text>
+
+  <!-- ── HARDWARE ── -->
+  <rect x="16" y="64" width="828" height="82" fill="#f0faf2" rx="8" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="32" y="82" fill="#1a7f37" font-size="10" font-weight="bold" letter-spacing="2">HARDWARE</text>
+
+  <rect x="32"  y="89" width="148" height="46" fill="#ffffff" rx="6" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="106" y="107" fill="#1a7f37" font-size="11" font-weight="bold" text-anchor="middle">TI ADS1299</text>
+  <text x="106" y="121" fill="#57606a" font-size="9"  text-anchor="middle">8-ch 24-bit EEG / ECG</text>
+  <text x="106" y="132" fill="#8c959f" font-size="8"  text-anchor="middle">SPI · DRDY interrupt</text>
+
+  <rect x="192" y="89" width="148" height="46" fill="#ffffff" rx="6" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="266" y="107" fill="#1a7f37" font-size="11" font-weight="bold" text-anchor="middle">ADI MAX86150</text>
+  <text x="266" y="121" fill="#57606a" font-size="9"  text-anchor="middle">ECG + PPG front-end</text>
+  <text x="266" y="132" fill="#8c959f" font-size="8"  text-anchor="middle">I2C · INT pin</text>
+
+  <rect x="352" y="89" width="148" height="46" fill="#ffffff" rx="6" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="426" y="107" fill="#1a7f37" font-size="11" font-weight="bold" text-anchor="middle">ADI MAX30102</text>
+  <text x="426" y="121" fill="#57606a" font-size="9"  text-anchor="middle">SpO&#x2082; · Heart-rate</text>
+  <text x="426" y="132" fill="#8c959f" font-size="8"  text-anchor="middle">I2C · INT pin</text>
+
+  <rect x="512" y="89" width="148" height="46" fill="#ffffff" rx="6" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="586" y="107" fill="#1a7f37" font-size="11" font-weight="bold" text-anchor="middle">TI ti-ads1298</text>
+  <text x="586" y="121" fill="#57606a" font-size="9"  text-anchor="middle">8-ch 24-bit ECG ADC</text>
+  <text x="586" y="132" fill="#8c959f" font-size="8"  text-anchor="middle">SPI · DRDY interrupt</text>
+
+  <text x="730" y="108" fill="#8c959f" font-size="10" text-anchor="middle">any Linux IIO</text>
+  <text x="730" y="122" fill="#8c959f" font-size="10" text-anchor="middle">device</text>
+
+  <!-- arrow -->
+  <line x1="430" y1="146" x2="430" y2="164" stroke="#2ea043" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <polygon points="424,161 436,161 430,168" fill="#2ea043"/>
+
+  <!-- ── KERNEL SPACE ── -->
+  <rect x="16" y="170" width="828" height="196" fill="#eff6ff" rx="8" stroke="#1f6feb" stroke-width="1.5"/>
+  <rect x="16" y="170" width="828" height="22" fill="#dbeafe" rx="8"/>
+  <rect x="16" y="181" width="828" height="11" fill="#dbeafe"/>
+  <text x="32" y="186" fill="#1f6feb" font-size="10" font-weight="bold" letter-spacing="2">KERNEL SPACE</text>
+  <rect x="720" y="173" width="116" height="16" fill="#bfdbfe" rx="4"/>
+  <text x="778" y="184" fill="#1d4ed8" font-size="9" text-anchor="middle" letter-spacing="0.5">Linux kernel &#x2265; 6.1</text>
+
+  <!-- IIO Driver boxes -->
+  <rect x="32"  y="200" width="185" height="70" fill="#ffffff" rx="6" stroke="#1f6feb" stroke-width="1.2"/>
+  <text x="124" y="217" fill="#1f6feb" font-size="11" font-weight="bold" text-anchor="middle">IIO Driver</text>
+  <text x="124" y="230" fill="#d97706" font-size="8"  text-anchor="middle">&#9733; Your upstream patch</text>
+  <text x="124" y="244" fill="#57606a" font-size="9"  text-anchor="middle">ads1299.c — under review</text>
+  <text x="124" y="257" fill="#57606a" font-size="9"  text-anchor="middle">max86150.c — under review</text>
+  <text x="124" y="268" fill="#8c959f" font-size="8"  text-anchor="middle">lore.kernel.org/linux-iio</text>
+
+  <rect x="232" y="200" width="185" height="70" fill="#ffffff" rx="6" stroke="#1f6feb" stroke-width="1.2"/>
+  <text x="324" y="217" fill="#1f6feb" font-size="11" font-weight="bold" text-anchor="middle">IIO Driver</text>
+  <text x="324" y="230" fill="#1a7f37" font-size="8"  text-anchor="middle">&#10003; Merged to mainline</text>
+  <text x="324" y="244" fill="#57606a" font-size="9"  text-anchor="middle">max30102.c — mainline</text>
+  <text x="324" y="257" fill="#57606a" font-size="9"  text-anchor="middle">ti-ads1298.c — mainline</text>
+  <text x="324" y="268" fill="#8c959f" font-size="8"  text-anchor="middle">torvalds/linux</text>
+
+  <!-- IIO Subsystem -->
+  <rect x="32"  y="284" width="600" height="70" fill="#dbeafe" rx="6" stroke="#3b82f6" stroke-width="1.2"/>
+  <text x="332" y="302" fill="#1d4ed8" font-size="12" font-weight="bold" text-anchor="middle">Linux IIO Subsystem</text>
+  <text x="332" y="318" fill="#374151" font-size="9"  text-anchor="middle">drivers/iio/ · sysfs interface · triggered buffer · DMA ring buffer · scan_elements</text>
+  <text x="332" y="332" fill="#57606a" font-size="9"  text-anchor="middle">/sys/bus/iio/devices/iio:device0/in_voltageX_raw  ·  /dev/iio:device0  ·  buffer/enable</text>
+  <text x="332" y="346" fill="#57606a" font-size="9"  text-anchor="middle">Hardware DRDY interrupt &#x2192; IIO trigger &#x2192; kernel DMA &#x2192; ring buffer &#x2192; read()</text>
+
+  <rect x="648" y="200" width="100" height="36" fill="#ffffff" rx="5" stroke="#d0d7de" stroke-width="1"/>
+  <text x="698" y="214" fill="#9a6700" font-size="9" text-anchor="middle">/sys/bus/iio/</text>
+  <text x="698" y="226" fill="#9a6700" font-size="9" text-anchor="middle">devices/</text>
+  <text x="698" y="236" fill="#8c959f" font-size="8" text-anchor="middle">sysfs polling</text>
+
+  <rect x="758" y="200" width="80" height="36" fill="#ffffff" rx="5" stroke="#d0d7de" stroke-width="1"/>
+  <text x="798" y="214" fill="#9a6700" font-size="9" text-anchor="middle">/dev/iio:</text>
+  <text x="798" y="226" fill="#9a6700" font-size="9" text-anchor="middle">device0</text>
+  <text x="798" y="236" fill="#8c959f" font-size="8" text-anchor="middle">DMA buffer</text>
+
+  <!-- ── BOUNDARY LINE ── -->
+  <line x1="16" y1="372" x2="844" y2="372" stroke="#8c959f" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <rect x="310" y="364" width="240" height="16" fill="#ffffff"/>
+  <text x="430" y="375" fill="#8c959f" font-size="10" font-weight="bold" text-anchor="middle" letter-spacing="3">── KERNEL / USER SPACE ──</text>
+
+  <!-- arrow -->
+  <line x1="430" y1="380" x2="430" y2="398" stroke="#cf222e" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <polygon points="424,395 436,395 430,402" fill="#cf222e"/>
+  <text x="530" y="394" fill="#8c959f" font-size="9">epoll_wait() · sysfs read()</text>
+
+  <!-- ── USER SPACE ── -->
+  <rect x="16" y="404" width="828" height="158" fill="#fff5f5" rx="8" stroke="#cf222e" stroke-width="1.5"/>
+  <rect x="16" y="404" width="828" height="22" fill="#ffe4e6" rx="8"/>
+  <rect x="16" y="415" width="828" height="11" fill="#ffe4e6"/>
+  <text x="32"  y="420" fill="#cf222e" font-size="10" font-weight="bold" letter-spacing="2">USER SPACE</text>
+  <text x="230" y="420" fill="#cf222e" font-size="10" font-weight="bold">ros2_iio_medical</text>
+  <text x="355" y="420" fill="#57606a" font-size="9">— Apache-2.0 · CI: Ubuntu 22.04 / ROS 2 Humble</text>
+  <rect x="700" y="407" width="136" height="16" fill="#fecdd3" rx="4"/>
+  <text x="768" y="418" fill="#9f1239" font-size="9" text-anchor="middle" letter-spacing="0.5">&#9733; Your open source work</text>
+
+  <!-- iio_bridge -->
+  <rect x="32"  y="432" width="390" height="118" fill="#ffffff" rx="6" stroke="#f87171" stroke-width="1.2"/>
+  <text x="227" y="450" fill="#dc2626" font-size="12" font-weight="bold" text-anchor="middle">iio_bridge</text>
+  <text x="227" y="464" fill="#57606a" font-size="9"  text-anchor="middle">Sysfs polling · wall timer · prototyping &amp; low-rate</text>
+  <line x1="50" y1="470" x2="410" y2="470" stroke="#fca5a5" stroke-width="1"/>
+  <text x="60"  y="483" fill="#8c959f" font-size="9">reads</text>
+  <text x="100" y="483" fill="#9a6700" font-size="9">in_voltageX_raw</text>
+  <text x="60"  y="497" fill="#8c959f" font-size="9">applies</text>
+  <text x="100" y="497" fill="#9a6700" font-size="9">in_voltage_scale &#x2192; mV</text>
+  <text x="60"  y="511" fill="#8c959f" font-size="9">publishes</text>
+  <text x="100" y="511" fill="#1f6feb" font-size="9">Float64MultiArray</text>
+  <text x="60"  y="526" fill="#8c959f" font-size="9">params</text>
+  <text x="100" y="526" fill="#57606a" font-size="9">device_path · num_channels · sample_rate_hz</text>
+  <text x="227" y="542" fill="#9a6700" font-size="9" text-anchor="middle">No kernel buffer setup required</text>
+
+  <!-- iio_triggered_bridge -->
+  <rect x="438" y="432" width="406" height="118" fill="#ffffff" rx="6" stroke="#f87171" stroke-width="1.2"/>
+  <text x="641" y="450" fill="#dc2626" font-size="12" font-weight="bold" text-anchor="middle">iio_triggered_bridge</text>
+  <text x="641" y="464" fill="#57606a" font-size="9"  text-anchor="middle">epoll on /dev/iio:deviceN · hardware-timed · production</text>
+  <line x1="456" y1="470" x2="836" y2="470" stroke="#fca5a5" stroke-width="1"/>
+  <text x="456" y="483" fill="#57606a" font-size="9">epoll_wait() &#x2192; read() &#x2192; parse binary sample</text>
+  <text x="456" y="497" fill="#57606a" font-size="9">channel discovery via scan_elements · signed/unsigned · endian</text>
+  <text x="456" y="511" fill="#1f6feb" font-size="9">Float64MultiArray  </text>
+  <text x="560" y="511" fill="#57606a" font-size="9">scaled to mV</text>
+  <text x="456" y="526" fill="#1a7f37" font-size="9">&#10003; No timer jitter  &#10003; No missed samples  &#10003; Hardware-timed</text>
+  <text x="641" y="542" fill="#9a6700" font-size="9" text-anchor="middle">Correct approach for continuous EEG / ECG acquisition</text>
+
+  <!-- arrow -->
+  <line x1="430" y1="562" x2="430" y2="580" stroke="#8c959f" stroke-width="1" stroke-dasharray="3,3"/>
+  <polygon points="424,577 436,577 430,584" fill="#8c959f"/>
+
+  <!-- ── ROS2 OUTPUT ── -->
+  <rect x="16" y="586" width="828" height="98" fill="#f0faf2" rx="8" stroke="#2ea043" stroke-width="1.2"/>
+  <text x="32" y="602" fill="#1a7f37" font-size="10" font-weight="bold" letter-spacing="2">ROS 2 TOPICS  &#x2192;  DOWNSTREAM NODES</text>
+
+  <rect x="32"  y="610" width="168" height="60" fill="#ffffff" rx="5" stroke="#2ea043" stroke-width="1"/>
+  <text x="116" y="627" fill="#1a7f37" font-size="10" font-weight="bold" text-anchor="middle">/biosignal/eeg</text>
+  <text x="116" y="641" fill="#57606a" font-size="9"  text-anchor="middle">ADS1299 · 8ch · 250 Hz</text>
+  <text x="116" y="654" fill="#8c959f" font-size="8"  text-anchor="middle">24-bit · mV scaled</text>
+  <text x="116" y="664" fill="#8c959f" font-size="8"  text-anchor="middle">Float64MultiArray</text>
+
+  <rect x="212" y="610" width="168" height="60" fill="#ffffff" rx="5" stroke="#2ea043" stroke-width="1"/>
+  <text x="296" y="627" fill="#1a7f37" font-size="10" font-weight="bold" text-anchor="middle">/biosignal/ecg_ppg</text>
+  <text x="296" y="641" fill="#57606a" font-size="9"  text-anchor="middle">MAX86150 · 2ch · 100 Hz</text>
+  <text x="296" y="654" fill="#8c959f" font-size="8"  text-anchor="middle">ECG + PPG</text>
+  <text x="296" y="664" fill="#8c959f" font-size="8"  text-anchor="middle">Float64MultiArray</text>
+
+  <rect x="392" y="610" width="168" height="60" fill="#ffffff" rx="5" stroke="#2ea043" stroke-width="1"/>
+  <text x="476" y="627" fill="#1a7f37" font-size="10" font-weight="bold" text-anchor="middle">/biosignal/spo2</text>
+  <text x="476" y="641" fill="#57606a" font-size="9"  text-anchor="middle">MAX30102 · 100 Hz</text>
+  <text x="476" y="654" fill="#8c959f" font-size="8"  text-anchor="middle">SpO&#x2082; · Heart-rate</text>
+  <text x="476" y="664" fill="#8c959f" font-size="8"  text-anchor="middle">Float64MultiArray</text>
+
+  <rect x="572" y="610" width="268" height="60" fill="#ffffff" rx="5" stroke="#d0d7de" stroke-width="1"/>
+  <text x="706" y="627" fill="#24292f" font-size="10" font-weight="bold" text-anchor="middle">Downstream</text>
+  <text x="706" y="641" fill="#57606a" font-size="9"  text-anchor="middle">Robot control · ML inference · rviz2</text>
+  <text x="706" y="654" fill="#57606a" font-size="9"  text-anchor="middle">rosbag2 logging · Clinical monitoring</text>
+  <text x="706" y="664" fill="#8c959f" font-size="9"  text-anchor="middle">Any ROS 2 node</text>
+
+</svg>
