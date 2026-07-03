@@ -78,21 +78,21 @@
   <text x="870" y="298" fill="#484f58" font-size="9">⚠  auditd / LSM not configured</text>
 
   <!-- M4 security -->
-  <text x="870" y="323" fill="#a371f7" font-size="9" font-weight="700">M4 REAL-TIME CORE</text>
-  <text x="870" y="336" fill="#3fb950" font-size="9">✓  No OS — no attack surface</text>
-  <text x="870" y="348" fill="#3fb950" font-size="9">✓  MPU (Memory Protection Unit)</text>
-  <text x="870" y="360" fill="#3fb950" font-size="9">✓  Firmware loaded by remoteproc</text>
-  <text x="870" y="372" fill="#3fb950" font-size="9">✓  No network, no file system</text>
-  <text x="870" y="384" fill="#3fb950" font-size="9">✓  UART debug disabled in prod</text>
+  <text x="870" y="323" fill="#a371f7" font-size="9" font-weight="700">M4 — ZEPHYR RTOS</text>
+  <text x="870" y="336" fill="#3fb950" font-size="9">✓  Zephyr MPU integration</text>
+  <text x="870" y="348" fill="#3fb950" font-size="9">✓  Firmware loaded by remoteproc</text>
+  <text x="870" y="360" fill="#3fb950" font-size="9">✓  No network stack, no VFS</text>
+  <text x="870" y="372" fill="#3fb950" font-size="9">✓  UART shell off in prod build</text>
+  <text x="870" y="384" fill="#d29922" font-size="9">★  MAX30102 driver your contribution</text>
   <text x="870" y="396" fill="#484f58" font-size="9">⚠  Firmware signing needed</text>
-  <text x="870" y="408" fill="#484f58" font-size="9">⚠  Stack canary not default</text>
-  <text x="870" y="422" fill="#a371f7" font-size="8.5" font-weight="600">Memory Safety (M4 firmware)</text>
-  <text x="870" y="434" fill="#3fb950" font-size="9">✓  Static allocation only</text>
+  <text x="870" y="408" fill="#484f58" font-size="9">⚠  Zephyr stack sentinel on</text>
+  <text x="870" y="422" fill="#a371f7" font-size="8.5" font-weight="600">Memory Safety (Zephyr M4)</text>
+  <text x="870" y="434" fill="#3fb950" font-size="9">✓  Static pools (K_MEM_SLAB)</text>
   <text x="870" y="446" fill="#3fb950" font-size="9">✓  No heap in acquisition path</text>
-  <text x="870" y="458" fill="#484f58" font-size="9">⚠  No ASAN (bare-metal)</text>
-  <text x="870" y="470" fill="#484f58" font-size="9">⚠  Code review + unit test in sim</text>
-  <text x="870" y="484" fill="#d29922" font-size="8" font-style="italic">M4 has smallest attack surface:</text>
-  <text x="870" y="496" fill="#d29922" font-size="8" font-style="italic">no OS, no network, no filesystem</text>
+  <text x="870" y="458" fill="#484f58" font-size="9">⚠  No ASAN (bare-metal target)</text>
+  <text x="870" y="470" fill="#484f58" font-size="9">⚠  Zephyr twister tests in CI</text>
+  <text x="870" y="484" fill="#d29922" font-size="8" font-style="italic">Zephyr: RTOS + drivers + IPC in</text>
+  <text x="870" y="496" fill="#d29922" font-size="8" font-style="italic">one framework — your MAX30102 here</text>
 
   <!-- U-Boot security -->
   <text x="870" y="523" fill="#d29922" font-size="9" font-weight="700">U-BOOT</text>
@@ -257,9 +257,9 @@
   ══════════════════════════════════════════ -->
   <rect x="24" y="528" width="826" height="148" fill="#150d2e" rx="12" stroke="#a371f7" stroke-width="2" filter="url(#shadow)"/>
   <rect x="44" y="520" width="242" height="20" fill="#7c3aed" rx="10"/>
-  <text x="165" y="533" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="1">M4 CORTEX — REAL-TIME FIRMWARE</text>
+  <text x="165" y="533" fill="#ffffff" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="1">M4 CORTEX — ZEPHYR RTOS</text>
   <rect x="296" y="520" width="200" height="20" fill="#1f1535" rx="10" stroke="#a371f7" stroke-width="1"/>
-  <text x="396" y="533" fill="#a371f7" font-size="10" font-weight="600" text-anchor="middle">FreeRTOS + OpenAMP</text>
+  <text x="396" y="533" fill="#a371f7" font-size="10" font-weight="600" text-anchor="middle">Zephyr RTOS + OpenAMP</text>
   <rect x="606" y="520" width="248" height="20" fill="#1a1400" rx="10" stroke="#d29922" stroke-width="1"/>
   <text x="730" y="533" fill="#d29922" font-size="9" font-weight="600" text-anchor="middle">No OS jitter · Hardware-timed · &lt; 1µs</text>
 
@@ -272,19 +272,19 @@
   <text x="56" y="598" fill="#c9d1d9" font-size="9">Zero CPU during transfer</text>
   <text x="56" y="614" fill="#c9d1d9" font-size="9">DMA complete → push to SRAM</text>
   <text x="56" y="630" fill="#484f58" font-size="8">ADS1299: SPI @ 2MHz, 24-bit × 8ch</text>
-  <text x="56" y="646" fill="#484f58" font-size="8">MAX30102: I2C @ 400kHz, FIFO</text>
+  <text x="56" y="646" fill="#d29922" font-size="8">★ MAX30102: your Zephyr driver (merged)</text>
   <text x="56" y="658" fill="#3fb950" font-size="8">✓ Exact sample timing &lt; 1µs jitter</text>
 
-  <!-- FreeRTOS + OpenAMP card -->
+  <!-- Zephyr RTOS threads card -->
   <rect x="286" y="540" width="258" height="126" fill="#1a1235" rx="10" stroke="#a371f7" stroke-width="1.5" filter="url(#shadow)"/>
   <rect x="286" y="540" width="258" height="5"   fill="#7c3aed" rx="10"/>
-  <text x="415" y="560" fill="#a371f7" font-size="11" font-weight="700" text-anchor="middle">FreeRTOS Tasks</text>
+  <text x="415" y="560" fill="#a371f7" font-size="11" font-weight="700" text-anchor="middle">Zephyr RTOS Threads</text>
   <line x1="304" y1="566" x2="530" y2="566" stroke="#2a1a4a" stroke-width="1"/>
-  <text x="304" y="582" fill="#c9d1d9" font-size="9">Task 1: ADC acquisition (prio max)</text>
-  <text x="304" y="598" fill="#c9d1d9" font-size="9">Task 2: RPMsg send to A7</text>
-  <text x="304" y="614" fill="#c9d1d9" font-size="9">Task 3: Watchdog kick</text>
+  <text x="304" y="582" fill="#c9d1d9" font-size="9">Thread 1: ADC acq (K_PRIO_COOP)</text>
+  <text x="304" y="598" fill="#c9d1d9" font-size="9">Thread 2: RPMsg send to A7</text>
+  <text x="304" y="614" fill="#c9d1d9" font-size="9">Thread 3: Watchdog kick</text>
   <text x="304" y="630" fill="#484f58" font-size="8">M4 watchdog: 5s timeout → board reset</text>
-  <text x="304" y="646" fill="#484f58" font-size="8">OpenAMP virtqueue to A7 shared SRAM</text>
+  <text x="304" y="646" fill="#484f58" font-size="8">OpenAMP/RPMsg via Zephyr IPC driver</text>
   <text x="304" y="658" fill="#3fb950" font-size="8">✓ Static memory only — no heap</text>
 
   <!-- RPMsg shared SRAM card -->
@@ -349,7 +349,7 @@
   <text x="752" y="726" fill="#a371f7" font-size="10" font-weight="700" text-anchor="middle">M4 Firmware Load</text>
   <line x1="674" y1="732" x2="834" y2="732" stroke="#2a1a4a" stroke-width="1"/>
   <text x="674" y="746" fill="#8b949e" font-size="9">remoteproc loads from rootfs</text>
-  <text x="674" y="760" fill="#8b949e" font-size="9">/lib/firmware/stm32mp1-m4.elf</text>
+  <text x="674" y="760" fill="#8b949e" font-size="9">/lib/firmware/zephyr.elf (M4)</text>
 
   <!-- Arrow up: Hardware → U-Boot -->
   <line x1="420" y1="794" x2="420" y2="786" stroke="#d29922" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-amber)"/>
