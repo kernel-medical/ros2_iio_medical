@@ -3,26 +3,11 @@
 ROS 2 bridge between Linux IIO biosignal kernel drivers and ROS 2 topics,
 targeting medical robotics and surgical monitoring applications.
 
-Covers the full acquisition stack:
+![Architecture](docs/architecture.svg)
 
-```
-Analog sensor
-     │
-     ▼
-Linux IIO kernel driver   (ADS1299, MAX86150, MAX30102, ti-ads1298)
-     │  Hardware DRDY interrupt → IIO trigger → kernel DMA
-     ▼
-/dev/iio:deviceN          (kernel ring buffer)
-     │  epoll_wait() → read() → parse binary sample
-     ▼
-ros2_iio_medical          (this package)
-     │  Float64MultiArray, scaled to physical units (mV, lux, BPM)
-     ▼
-ROS 2 topic               /biosignal/eeg  /biosignal/ecg_ppg  /biosignal/spo2
-     │
-     ▼
-Downstream nodes          robot control, logging, ML inference, visualisation
-```
+Covers the full acquisition stack — from analog sensor through Linux kernel
+driver, IIO subsystem, and DMA ring buffer, up to typed ROS 2 topics ready
+for robot control, ML inference, and clinical logging.
 
 ## Supported Devices
 
